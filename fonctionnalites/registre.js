@@ -2,6 +2,5 @@
 // Pour en ajouter une : créez fonctionnalites/<id>.js, puis ajoutez '<id>' ici (voir CLAUDE.md).
 window.FONCTIONNALITES = [
   'mes-cours',
-  'compteur-cartes',
   'proposer',
 ];
