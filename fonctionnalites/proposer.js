@@ -1,4 +1,4 @@
-// Proposer une fonctionnalité : le modèle de mini PRD, la consigne « interroge-moi » et le lien vers le formulaire.
+// Proposer une fonctionnalité : le modèle de mini PRD, le prompt « interroge-moi » et le lien vers le formulaire.
 Outil.enregistrer({
   id: 'proposer',
   titre: 'Proposer une fonctionnalité',
@@ -11,7 +11,7 @@ Outil.enregistrer({
     const { el } = O;
     const idee = el('input', { type: 'text', placeholder: 'Mon idée en une phrase' });
 
-    const consigne = () => 'Je suis étudiant en Bachelor. Je veux proposer une fonctionnalité pour l\'outil d\'apprentissage de ma classe : '
+    const prompt = () => 'Je suis étudiant en Bachelor. Je veux proposer une fonctionnalité pour l\'outil d\'apprentissage de ma classe : '
       + (idee.value.trim() || '[mon idée en une phrase]') + '.\n'
       + 'Pose-moi des questions, une seule à la fois, pour m\'aider à la préciser : le problème que je rencontre quand je révise, '
       + 'ce qu\'elle fait étape par étape, un exemple concret, comment savoir qu\'elle marche, et ce qu\'elle ne doit pas faire. '
@@ -23,7 +23,7 @@ Outil.enregistrer({
         el('h2', {}, '1. Précisez votre idée avec votre IA'),
         el('p', { class: 'aide' }, 'Votre IA vous pose des questions une par une. C\'est vous qui répondez.'),
         el('label', { class: 'champ' }, el('span', {}, 'Votre idée'), idee),
-        el('button', { class: 'bouton', onclick: () => O.ouvrirIA(consigne(), 'Faites-vous interroger') }, 'Ouvrir mon IA')),
+        el('button', { class: 'bouton', onclick: () => O.ouvrirIA(prompt(), 'Faites-vous interroger') }, 'Ouvrir mon IA')),
       el('section', { class: 'carte' },
         el('h2', {}, '2. Remplissez votre mini PRD'),
         el('p', { class: 'aide' }, 'Une page, six rubriques :'),

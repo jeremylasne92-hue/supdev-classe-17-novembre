@@ -69,7 +69,7 @@ Outil.enregistrer({
       const colle = el('textarea', { rows: 5, placeholder: 'Collez ici la réponse de votre IA (lignes Q: et R:)' });
       zone.append(el('section', { class: 'carte' },
         el('h2', {}, 'Cartes proposées par votre IA'),
-        el('p', { class: 'aide' }, '1. Ouvrez votre IA avec la consigne. 2. Vérifiez ses réponses avec votre cours. 3. Collez-les ici.'),
+        el('p', { class: 'aide' }, '1. Ouvrez votre IA avec le prompt. 2. Vérifiez ses réponses avec votre cours. 3. Collez-les ici.'),
         el('div', { class: 'rangee' },
           el('button', {
             class: 'bouton secondaire',

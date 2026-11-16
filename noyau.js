@@ -207,8 +207,8 @@
     return a;
   };
 
-  // ---------- Ouvrir une IA gratuite avec une consigne déjà prête ----------
-  // Aucune clé d'API : la consigne s'ouvre dans l'IA de l'étudiant, ou se copie.
+  // ---------- Ouvrir une IA gratuite avec un prompt déjà prêt ----------
+  // Aucune clé d'API : le prompt s'ouvre dans l'IA de l'étudiant, ou se copie.
 
   const IA = {
     chatgpt: { nom: 'ChatGPT', url: (q) => 'https://chatgpt.com/?q=' + q },
@@ -216,11 +216,11 @@
     gemini: { nom: 'Gemini', url: () => 'https://gemini.google.com/app' },
   };
 
-  function ouvrirIA(consigne, titre) {
-    const texte = String(consigne);
+  function ouvrirIA(prompt, titre) {
+    const texte = String(prompt);
     const encode = encodeURIComponent(texte);
     const tropLong = encode.length > 6000;
-    const fenetre = el('dialog', { class: 'fenetre', 'aria-label': titre || 'Consigne pour votre IA' });
+    const fenetre = el('dialog', { class: 'fenetre', 'aria-label': titre || 'Prompt pour votre IA' });
     const fermer = () => { fenetre.close(); fenetre.remove(); };
     const boutons = (CONFIG.ia || Object.keys(IA)).filter((k) => IA[k]).map((k) =>
       el('button', {
@@ -232,9 +232,9 @@
         },
       }, 'Ouvrir ' + IA[k].nom));
     fenetre.append(
-      el('h2', {}, titre || 'Consigne pour votre IA'),
+      el('h2', {}, titre || 'Prompt pour votre IA'),
       el('p', { class: 'aide' },
-        "La consigne est copiée quand vous ouvrez une IA. Si elle n'apparaît pas, collez-la dans la zone de message."),
+        "Le prompt est copié quand vous ouvrez une IA. S'il n'apparaît pas, collez-le dans la zone de message."),
       el('textarea', { class: 'consigne', readonly: true, rows: 8 }, texte),
       el('div', { class: 'rangee' },
         el('button', { class: 'bouton secondaire', onclick: () => copier(texte) }, 'Copier'),

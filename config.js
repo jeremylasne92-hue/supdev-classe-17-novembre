@@ -10,7 +10,7 @@ window.CONFIG = {
     carte: '#ffffff',  // fond des cartes
   },
   police: 'system-ui', // ou le nom exact d'une police Google Fonts, par exemple 'Poppins'
-  ia: ['chatgpt', 'claude', 'gemini'], // IA proposées pour ouvrir une consigne
+  ia: ['chatgpt', 'claude', 'gemini'], // IA proposées pour ouvrir un prompt
   depot: 'https://github.com/jeremylasne92-hue/supdev-classe-17-novembre',
   formulaire: 'https://docs.google.com/forms/d/e/1FAIpQLSc8Kjkt2QfetAd4bS7-_T3yeZlQpprvuqoqgpgY9SBdicEzzw/viewform',
 };

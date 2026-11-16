@@ -15,7 +15,7 @@ Le site est publié par GitHub Pages depuis la branche `main` : https://jeremyla
 - `noyau.js` fournit l'objet global `Outil` (ci-dessous).
 - **Une fonctionnalité = un fichier `fonctionnalites/<id>.js` + une ligne `'<id>'` dans `fonctionnalites/registre.js`.** Rien d'autre à toucher. Une fonctionnalité cassée se retire donc d'un seul `git revert`.
 - Les données restent dans le navigateur de l'étudiant, par `Outil`. Rien n'est envoyé sur internet.
-- Pour faire appel à une IA : `Outil.ouvrirIA(consigne, titre)`. La consigne s'ouvre dans l'IA gratuite de l'étudiant (ChatGPT, Claude, Gemini) ou se copie. L'étudiant peut ensuite coller la réponse de l'IA dans un champ de la fonctionnalité.
+- Pour faire appel à une IA : `Outil.ouvrirIA(prompt, titre)`. Le prompt s'ouvre dans l'IA gratuite de l'étudiant (ChatGPT, Claude, Gemini) ou se copie. L'étudiant peut ensuite coller la réponse de l'IA dans un champ de la fonctionnalité.
 
 ## L'objet `Outil`
 
@@ -26,7 +26,7 @@ Le site est publié par GitHub Pages depuis la branche `main` : https://jeremyla
 | `Outil.cartes` | `liste(idMatiere?)` (toutes les matières si vide), `ajouter(idMatiere, q, r)`, `supprimer(idCarte)`, `importer(idMatiere, texte)` (lignes `Q:` / `R:`). Une carte : `{ id, matiere, q, r, creee, boite, prochaine, essais, reussites }`. Après avoir modifié une carte, appeler `Outil.sauver()` |
 | `Outil.memoire(id)` | Mémoire propre à une fonctionnalité : `.lire(valeurParDefaut)`, `.ecrire(valeur)` |
 | `Outil.choixMatiere(quandChange)` | Sélecteur de matière prêt à insérer |
-| `Outil.ouvrirIA(consigne, titre)` | Ouvre la fenêtre « Ouvrir ChatGPT, Claude ou Gemini », la consigne est copiée |
+| `Outil.ouvrirIA(prompt, titre)` | Ouvre la fenêtre « Ouvrir ChatGPT, Claude ou Gemini », le prompt est copié |
 | `Outil.copier(texte)`, `Outil.notifier(message)` | Copier dans le presse-papiers, afficher un court message |
 | `Outil.melanger(tableau)`, `Outil.naviguer(id)`, `Outil.config` | Mélanger, aller à une fonctionnalité, lire `config.js` |
 
