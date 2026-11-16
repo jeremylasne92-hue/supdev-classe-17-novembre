@@ -14,7 +14,7 @@ Outil.enregistrer({
     const consigne = () => 'Je suis étudiant en Bachelor. Je veux proposer une fonctionnalité pour l\'outil d\'apprentissage de ma classe : '
       + (idee.value.trim() || '[mon idée en une phrase]') + '.\n'
       + 'Pose-moi des questions, une seule à la fois, pour m\'aider à la préciser : le problème que je rencontre quand je révise, '
-      + 'pour qui elle est, ce qu\'elle fait étape par étape, un exemple concret, comment savoir qu\'elle marche, et ce qu\'elle ne doit pas faire. '
+      + 'ce qu\'elle fait étape par étape, un exemple concret, comment savoir qu\'elle marche, et ce qu\'elle ne doit pas faire. '
       + 'Elle doit me faire travailler, pas travailler à ma place.\n'
       + 'N\'écris pas la fiche à ma place : à la fin, résume seulement mes réponses, avec mes mots.';
 
@@ -26,16 +26,14 @@ Outil.enregistrer({
         el('button', { class: 'bouton', onclick: () => O.ouvrirIA(consigne(), 'Faites-vous interroger') }, 'Ouvrir mon IA')),
       el('section', { class: 'carte' },
         el('h2', {}, '2. Remplissez votre mini PRD'),
-        el('p', { class: 'aide' }, 'Une page, huit rubriques :'),
+        el('p', { class: 'aide' }, 'Une page, six rubriques :'),
         el('ol', {},
           el('li', {}, 'Nom de la fonctionnalité'),
           el('li', {}, 'Le problème : ce qui vous gêne quand vous révisez'),
-          el('li', {}, 'Pour qui'),
           el('li', {}, 'Ce qu\'elle fait, étape par étape'),
           el('li', {}, 'Un exemple concret'),
           el('li', {}, 'Comment saurez-vous qu\'elle marche (2 ou 3 critères)'),
-          el('li', {}, 'Ce qu\'elle ne doit pas faire'),
-          el('li', {}, 'Le principe des sciences cognitives qu\'elle utilise')),
+          el('li', {}, 'Ce qu\'elle ne doit pas faire')),
         O.config.formulaire
           ? el('a', { class: 'bouton', href: O.config.formulaire, target: '_blank', rel: 'noopener' }, 'Déposer mon mini PRD')
           : null,
