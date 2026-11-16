@@ -50,6 +50,8 @@ Outil.enregistrer({
 });
 ```
 
+Ne passez jamais `null` ni `undefined` à `zone.append` : le navigateur l'afficherait en toutes lettres. Enveloppez un élément facultatif dans `el('div', {}, condition ? element : null)`, car `Outil.el` ignore les valeurs vides.
+
 Des styles propres à une fonctionnalité vont dans son fichier, une seule fois, dans un `<style id="style-<id>">` dont les règles commencent par `.f-<id>`. Classes déjà prêtes dans `style.css` : `carte`, `bouton`, `bouton secondaire`, `bouton danger`, `lien`, `champ`, `aide`, `rangee`, `liste`, `erreur`, `grille`, `tuile`.
 
 ## Règles de conception

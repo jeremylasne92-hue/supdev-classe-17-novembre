@@ -311,9 +311,9 @@
           el('strong', {}, m.titre),
           el('span', {}, m.description),
           m.ticket && CONFIG.depot ? el('small', {}, 'Ticket n° ' + m.ticket) : null))),
-      erreurs.length
+      el('div', {}, erreurs.length
         ? el('p', { class: 'erreur' }, 'Fonctionnalités indisponibles pour le moment : ' + erreurs.join(', '))
-        : null);
+        : null));
   }
 
   function appliquerApparence() {
