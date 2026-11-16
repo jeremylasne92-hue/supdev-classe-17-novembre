@@ -1,7 +1,7 @@
 // Identité de l'outil : la classe choisit le nom et le design en début de séance.
 window.CONFIG = {
   nom: "Outil d'apprentissage",
-  sousTitre: 'Essai du 16 novembre',
+  sousTitre: 'Construit par la classe de Bachelor de SUP de V, le 17 novembre 2026',
   emoji: '🧠',
   couleurs: {
     accent: '#2f5bd3', // boutons, liens, titres
