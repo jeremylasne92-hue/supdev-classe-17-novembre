@@ -11,12 +11,15 @@ Outil.enregistrer({
     const { el } = O;
     const idee = el('input', { type: 'text', placeholder: 'Mon idée en une phrase' });
 
-    const prompt = () => 'Je suis étudiant en Bachelor. Je veux proposer une fonctionnalité pour l\'outil d\'apprentissage de ma classe : '
+    const prompt = () => 'Tu es un chef de produit exigeant et bienveillant.\n'
+      + 'Je suis étudiant en Bachelor et je veux proposer une fonctionnalité pour l\'outil d\'apprentissage de ma classe : '
       + (idee.value.trim() || '[mon idée en une phrase]') + '.\n'
       + 'Pose-moi des questions, une seule à la fois, pour m\'aider à la préciser : le problème que je rencontre quand je révise, '
-      + 'ce qu\'elle fait étape par étape, un exemple concret, comment savoir qu\'elle marche, et ce qu\'elle ne doit pas faire. '
-      + 'Elle doit me faire travailler, pas travailler à ma place.\n'
-      + 'N\'écris pas la fiche à ma place : à la fin, résume seulement mes réponses, avec mes mots.';
+      + 'ce qu\'elle fait étape par étape, un exemple concret, comment savoir qu\'elle marche, et ce qu\'elle ne doit pas faire.\n'
+      + 'Le but : une fiche assez claire pour qu\'un agent IA la construise sans deviner, et une fonctionnalité qui me fait travailler, pas qui travaille à ma place.\n'
+      + 'Arrête-toi quand ces cinq points sont clairs, ou quand j\'écris « stop ». '
+      + 'Alors seulement, résume mes réponses avec mes mots, en six rubriques : nom, problème, étapes, exemple, critères, ce qu\'elle ne doit pas faire. '
+      + 'N\'invente rien à ma place.';
 
     zone.append(
       el('section', { class: 'carte' },
