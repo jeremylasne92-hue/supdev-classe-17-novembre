@@ -30,6 +30,8 @@ Le site est publié par GitHub Pages depuis la branche `main` : https://jeremyla
 | `Outil.copier(texte)`, `Outil.notifier(message)` | Copier dans le presse-papiers, afficher un court message |
 | `Outil.melanger(tableau)`, `Outil.naviguer(id)`, `Outil.config` | Mélanger, aller à une fonctionnalité, lire `config.js` |
 
+Une fonctionnalité peut aussi déclarer `barre: true` (raccourci dans la barre du bas, avec `titreCourt`) et `cache: true` (absente de l'accueil).
+
 ## Modèle d'une fonctionnalité
 
 ```js

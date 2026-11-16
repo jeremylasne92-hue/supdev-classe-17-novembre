@@ -45,6 +45,7 @@ main {
   padding: 16px max(16px, env(safe-area-inset-left, 0px)) 24px;
   outline: none;
 }
+main:focus, main:focus-visible { outline: none; }
 
 h1 { font-size: 1.6rem; line-height: 1.2; margin: 8px 0 16px; }
 h2 { font-size: 1.2rem; margin: 24px 0 8px; }

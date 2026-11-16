@@ -2,6 +2,7 @@
 Outil.enregistrer({
   id: 'proposer',
   titre: 'Proposer une fonctionnalité',
+  titreCourt: 'Proposer',
   icone: '💡',
   description: 'Votre mini PRD : décrivez une idée, la classe vote, un agent IA la construit',
   ordre: 99,

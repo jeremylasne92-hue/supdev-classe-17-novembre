@@ -347,7 +347,7 @@
       const raccourcis = [{ id: 'accueil', titre: 'Accueil', icone: '🏠' }]
         .concat(modules.filter((m) => m.barre).sort((a, b) => a.ordre - b.ordre));
       barre.replaceChildren(...raccourcis.map((m) =>
-        el('a', { href: '#' + m.id }, el('span', { 'aria-hidden': 'true' }, m.icone), m.titre)));
+        el('a', { href: '#' + m.id }, el('span', { 'aria-hidden': 'true' }, m.icone), m.titreCourt || m.titre)));
     }
     window.addEventListener('hashchange', afficher);
     afficher();
