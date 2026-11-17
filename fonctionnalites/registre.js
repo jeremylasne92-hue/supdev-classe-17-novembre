@@ -7,5 +7,6 @@ window.FONCTIONNALITES = [
   'mes-progres',
   'avec-mes-mots',
   'planning',
+  'minuteur',
   'proposer',
 ];
