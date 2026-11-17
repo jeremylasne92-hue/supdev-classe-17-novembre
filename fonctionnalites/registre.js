@@ -6,5 +6,6 @@ window.FONCTIONNALITES = [
   'fiche-revision',
   'mes-progres',
   'avec-mes-mots',
+  'planning',
   'proposer',
 ];
