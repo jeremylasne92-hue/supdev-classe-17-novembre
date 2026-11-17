@@ -1,13 +1,13 @@
 // Identité de l'outil : la classe choisit le nom et le design en début de séance.
 window.CONFIG = {
-  nom: "Outil d'apprentissage",
+  nom: 'Patrick',
   sousTitre: 'Construit par la classe de Bachelor de SUP de V, le 17 novembre 2026',
   emoji: '🧠',
   couleurs: {
-    accent: '#2f5bd3', // boutons, liens, titres
-    fond: '#f4f6fb',   // fond de page
-    texte: '#18202f',  // texte principal
-    carte: '#ffffff',  // fond des cartes
+    accent: '#1d5fc4', // boutons, liens, titres
+    fond: '#e8f0fb',   // fond de page
+    texte: '#10233f',  // texte principal
+    carte: '#f8fbff',  // fond des cartes
   },
   police: 'system-ui', // ou le nom exact d'une police Google Fonts, par exemple 'Poppins'
   ia: ['chatgpt', 'claude', 'gemini'], // IA proposées pour ouvrir un prompt
