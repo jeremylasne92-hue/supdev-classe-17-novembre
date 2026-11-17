@@ -3,5 +3,6 @@
 window.FONCTIONNALITES = [
   'mes-cours',
   'quiz',
+  'fiche-revision',
   'proposer',
 ];
