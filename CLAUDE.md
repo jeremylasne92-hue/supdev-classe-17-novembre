@@ -8,6 +8,14 @@ Un outil d'apprentissage construit par une classe de Bachelor de SUP de V, le 17
 
 Le site est publié par GitHub Pages depuis la branche `main` : https://jeremylasne92-hue.github.io/supdev-classe-17-novembre/
 
+## Deuxième classe, le 26 novembre 2026
+
+Une seconde classe de Bachelor reprend l'outil le 26 novembre 2026. La classe du 17 l'a nommé « Patrick » et y a construit six fonctionnalités : quiz, fiche de révision, mes progrès, avec mes mots, planning et minuteur (tickets 2 à 19, fermés ; le ticket 20 reste ouvert). Les mini PRD de la classe du 26 commencent au ticket 21.
+
+- Ne retirez ni ne cassez aucune fonctionnalité existante. Les données que les étudiants ont déjà gardées dans leur navigateur doivent continuer de s'afficher : ne changez pas la façon dont une fonctionnalité existante les enregistre.
+- Un ticket qui améliore une fonctionnalité existante modifie son fichier, au lieu d'en créer une seconde qui fait la même chose.
+- Ne changez le nom, les couleurs ou la police que sur demande explicite.
+
 ## Architecture, à ne pas changer
 
 - Site statique : HTML, CSS et JavaScript classique. Pas d'étape de construction, pas de bibliothèque, pas de serveur, pas de clé d'API.
