@@ -9,5 +9,6 @@ window.FONCTIONNALITES = [
   'planning',
   'minuteur',
   'question-reponse',
+  'karaoke',
   'proposer',
 ];
