@@ -1,7 +1,7 @@
 // Identité de l'outil : la classe choisit le nom et le design en début de séance.
 window.CONFIG = {
   nom: 'Patrick',
-  sousTitre: 'Construit par la classe de Bachelor de SUP de V, le 17 novembre 2026',
+  sousTitre: 'Construit par deux classes de Bachelor de SUP de V, les 17 et 26 novembre 2026',
   emoji: '🧠',
   couleurs: {
     accent: '#1d5fc4', // boutons, liens, titres

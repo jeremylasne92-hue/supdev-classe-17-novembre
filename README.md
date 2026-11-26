@@ -1,6 +1,6 @@
 # Outil d'apprentissage de la classe
 
-Construit par une classe de Bachelor de SUP de V le 17 novembre 2026, pendant l'atelier « Augmenter votre cerveau, pas le remplacer » animé par Jérémy Lasne (Mouvement ECHO).
+Construit par deux classes de Bachelor de SUP de V, les 17 et 26 novembre 2026, pendant l'atelier « Augmenter votre cerveau, pas le remplacer » animé par Jérémy Lasne (Mouvement ECHO).
 
 **Utiliser l'outil :** https://jeremylasne92-hue.github.io/supdev-classe-17-novembre/
 
