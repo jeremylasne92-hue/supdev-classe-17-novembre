@@ -1,4 +1,5 @@
 // Minuteur : une séance de révision de 20 à 30 minutes, puis une pause de 5 minutes, pour rester concentré. Ticket #15.
+// Classe du 26 novembre : un conseil du jour pour la concentration et la créativité (#33).
 (function () {
   const memoire = Outil.memoire('minuteur');
   const jour = () => new Date().toLocaleDateString('fr-CA');
@@ -13,6 +14,16 @@
     'Bien joué. Votre cerveau a mérité sa pause.',
     'Chaque séance compte : continuez comme ça.',
     'Beau travail : vous êtes resté concentré jusqu\'au bout.',
+  ];
+  const CONSEILS = [
+    'Posez votre téléphone dans une autre pièce : votre attention reste à vous.',
+    'Commencez par la tâche la plus courte. La réussir donne de l\'élan pour la suite.',
+    'Buvez un verre d\'eau avant de commencer : votre cerveau travaille mieux.',
+    'Une idée vous traverse ? Notez-la sur un papier et reprenez : vous la retrouverez à la pause.',
+    'Changez de lieu de temps en temps : un nouveau décor réveille la créativité.',
+    'Pendant la pause, marchez ou regardez au loin plutôt qu\'un écran.',
+    'Expliquez votre cours à voix haute, comme à un ami : les idées se relient.',
+    'Fixez-vous un seul objectif pour la séance, précis et atteignable.',
   ];
 
   let veille = null;
@@ -141,6 +152,13 @@
         } else if (d.seances) {
           racine.append(el('p', { class: 'aide' }, 'Aujourd\'hui : ' + d.seances + (d.seances > 1 ? ' séances.' : ' séance.')));
         }
+
+        // Conseil du jour pour la concentration et la créativité, toujours positif (ticket #33).
+        const conseil = el('p', {}, O.melanger(CONSEILS)[0]);
+        racine.append(el('section', { class: 'carte' },
+          el('h2', {}, 'Conseil du jour'),
+          conseil,
+          el('button', { class: 'lien', onclick: () => { conseil.textContent = O.melanger(CONSEILS.filter((c) => c !== conseil.textContent))[0]; } }, 'Un autre conseil')));
 
         racine.append(
           el('section', { class: 'carte' },

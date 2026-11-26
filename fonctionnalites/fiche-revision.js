@@ -96,6 +96,23 @@ Outil.enregistrer({
       return el('div', { class: 'fiche' }, blocs);
     }
 
+    // Lecture à voix haute par le navigateur, sans rien envoyer sur internet (ticket #32).
+    const ECOUTER = '🔊 Écouter la fiche';
+    function ecouter(texte, bouton) {
+      const voix = window.speechSynthesis;
+      if (!voix || !window.SpeechSynthesisUtterance) { O.notifier('Votre navigateur ne sait pas lire à voix haute.'); return; }
+      if (voix.speaking) { voix.cancel(); bouton.textContent = ECOUTER; return; }
+      const propre = String(texte).split(/\r?\n/)
+        .filter((l) => !/^\s*\|[\s:|-]+\|?\s*$/.test(l))
+        .map((l) => nettoyer(l.replace(/^\s*(#{1,6}|[-*•]|\|)\s*/, '').replace(/\|/g, ', ')))
+        .filter(Boolean).join('.\n');
+      const phrase = new window.SpeechSynthesisUtterance(propre);
+      phrase.lang = 'fr-FR';
+      phrase.onend = () => { bouton.textContent = ECOUTER; };
+      voix.speak(phrase);
+      bouton.textContent = '⏹ Arrêter la lecture';
+    }
+
     function prompt(matiere, format, partie, choisies) {
       const extras = OPTIONS.filter((o) => choisies.includes(o.id)).map((o) => '- ' + o.consigne).join('\n');
       return 'Voici mes notes de cours sur « ' + matiere.nom + ' ».\n'
@@ -117,6 +134,7 @@ Outil.enregistrer({
 
       // La fiche enregistrée
       if (d.texte) {
+        const ecoute = el('button', { class: 'bouton', onclick: () => ecouter(d.texte, ecoute) }, ECOUTER);
         racine.append(el('section', { class: 'carte' },
           el('h2', {}, 'Ma fiche : ' + matiere.nom),
           rendre(d.texte),
@@ -125,6 +143,8 @@ Outil.enregistrer({
             el('p', { class: 'souvenir' }, d.souvenir),
             el('p', { class: 'aide' }, 'Comparez : ce qui manque dans votre liste, c\'est ce qu\'il faut revoir en priorité.')) : null,
           el('div', { class: 'rangee' },
+            ecoute,
+            el('button', { class: 'bouton secondaire', onclick: () => O.naviguer('quiz') }, 'Me tester avec le quiz'),
             el('button', { class: 'bouton secondaire', onclick: () => O.copier(d.texte) }, 'Copier la fiche'),
             el('button', {
               class: 'bouton danger',
