@@ -1,4 +1,6 @@
 // Quiz : un QCM écrit par votre IA à partir de vos notes ; vous répondez, puis la correction expliquée et votre note. Ticket #6.
+// Classe du 26 novembre : quiz du soir (#27), quiz de réflexion (#28), réponses fiables tirées des notes (#27, #28),
+// cartes flash des erreurs en fin de quiz (#26).
 Outil.enregistrer({
   id: 'quiz',
   titre: 'Quiz',
@@ -12,6 +14,14 @@ Outil.enregistrer({
     const { el } = O;
     const LETTRES = 'ABCD';
     const memoire = O.memoire('quiz');
+    const TYPES = {
+      classique: { nom: 'QCM classique : 10 questions', consigne: 'Crée un QCM de 10 questions' },
+      soir: { nom: 'Quiz du soir : 5 questions rapides', consigne: 'Crée un quiz du soir de 5 questions courtes, sur les définitions et les faits à retenir par cœur' },
+      reflexion: {
+        nom: 'Quiz de réflexion : les idées essentielles',
+        consigne: 'Repère d\'abord les idées essentielles de mes notes, puis crée un QCM de 8 questions qui vérifient que je les ai comprises (pourquoi, comment, dans quel cas), pas seulement apprises par cœur. Les mauvais choix sont des erreurs fréquentes et crédibles',
+      },
+    };
 
     if (!document.getElementById('style-quiz')) {
       document.head.append(el('style', { id: 'style-quiz' }, `
@@ -71,10 +81,11 @@ Outil.enregistrer({
       return questions.filter((x) => x.q && x.choix.filter(Boolean).length >= 2 && x.bonne >= 0 && x.choix[x.bonne]);
     }
 
-    function promptQCM(matiere) {
+    function promptQCM(matiere, type) {
       return 'Voici mes notes de cours sur « ' + matiere.nom + ' ».\n'
-        + 'Crée un QCM de 10 questions, uniquement à partir de ces notes : n\'ajoute aucune notion qui n\'y figure pas.\n'
-        + 'Chaque question a 4 choix et une seule bonne réponse. Pour chaque question, écris une explication courte, en mots simples, qui justifie la bonne réponse.\n'
+        + (TYPES[type] || TYPES.classique).consigne + ', uniquement à partir de ces notes : n\'ajoute aucune notion qui n\'y figure pas.\n'
+        + 'Sois fiable : ne pose aucune question dont la réponse n\'est pas clairement dans mes notes, et n\'invente aucune réponse.\n'
+        + 'Chaque question a 4 choix et une seule bonne réponse. Pour chaque question, écris une explication courte, en mots simples, qui justifie la bonne réponse en citant brièvement mes notes.\n'
         + 'Respecte exactement ce format, sans titre ni commentaire :\n'
         + 'Q: la question\nA) premier choix\nB) deuxième choix\nC) troisième choix\nD) quatrième choix\nBonne réponse: B\nExplication: une phrase\n\n'
         + 'Mes notes :\n' + matiere.notes;
@@ -110,10 +121,13 @@ Outil.enregistrer({
         return;
       }
       const colle = el('textarea', { rows: 6, placeholder: 'Collez ici le QCM écrit par votre IA' });
+      const type = el('select', { 'aria-label': 'Type de quiz' },
+        Object.keys(TYPES).map((k) => el('option', { value: k }, TYPES[k].nom)));
       racine.append(el('section', { class: 'carte' },
         el('h2', {}, titre),
-        el('p', { class: 'aide' }, '1. Ouvrez votre IA : elle écrit 10 questions à partir de vos notes. 2. Relisez-les avec votre cours. 3. Collez-les ici.'),
-        el('button', { class: 'bouton secondaire', onclick: () => O.ouvrirIA(promptQCM(matiere), 'Créer un QCM avec votre IA') }, 'Ouvrir mon IA'),
+        el('label', { class: 'champ' }, el('span', {}, 'Type de quiz'), type),
+        el('p', { class: 'aide' }, '1. Ouvrez votre IA : elle écrit les questions à partir de vos notes. 2. Relisez-les avec votre cours. 3. Collez-les ici.'),
+        el('button', { class: 'bouton secondaire', onclick: () => O.ouvrirIA(promptQCM(matiere, type.value), 'Créer un QCM avec votre IA') }, 'Ouvrir mon IA'),
         colle,
         el('button', {
           class: 'bouton',
@@ -195,6 +209,9 @@ Outil.enregistrer({
         d.ratees = d.ratees.filter((t) => !reussies.includes(t)).concat(ratees.filter((t) => !d.ratees.includes(t)));
         ecrireMatiere(matiere.id, d);
         const aRevoir = liste.filter((x) => ratees.includes(x.q));
+        const garder = aRevoir.length
+          ? el('button', { class: 'bouton secondaire', onclick: () => ajouterCartes(matiere, aRevoir, garder) }, 'Garder ces cartes dans Mes cours')
+          : null;
 
         racine.replaceChildren(el('section', { class: 'carte' },
           el('h2', {}, 'Votre note'),
@@ -208,6 +225,14 @@ Outil.enregistrer({
                 'Réponse : ' + LETTRES[x.bonne] + ') ' + x.choix[x.bonne],
                 x.explication ? el('span', {}, el('br'), el('span', { class: 'aide' }, x.explication)) : null))))
             : el('p', {}, 'Aucune erreur : bravo.'),
+          aRevoir.length
+            ? el('div', {},
+              el('h2', {}, 'Vos erreurs en cartes flash'),
+              el('p', { class: 'aide' }, 'La question d\'abord, la réponse seulement quand vous retournez la carte.'),
+              el('div', { class: 'rangee' },
+                el('button', { class: 'bouton', onclick: () => cartesFlash(matiere, aRevoir) }, 'Réviser en cartes flash'),
+                garder))
+            : null,
           el('div', { class: 'rangee' },
             aRevoir.length ? el('button', { class: 'bouton', onclick: () => jouer(matiere, aRevoir) }, 'Recommencer les questions ratées') : null,
             el('button', { class: 'bouton secondaire', onclick: () => jouer(matiere, d.questions) }, 'Refaire tout le quiz')),
@@ -215,6 +240,49 @@ Outil.enregistrer({
       }
 
       question();
+    }
+
+    // Cartes flash des erreurs : la question d'abord, la réponse seulement quand vous retournez la carte (ticket #26).
+    function cartesFlash(matiere, paquet) {
+      let i = 0;
+      function carte() {
+        racine.replaceChildren();
+        const x = paquet[i];
+        const reponse = el('div', { 'aria-live': 'polite' });
+        const suite = el('div', { class: 'rangee' });
+        const retourner = el('button', {
+          class: 'bouton',
+          onclick: () => {
+            retourner.remove();
+            reponse.replaceChildren(
+              el('p', { class: 'verdict-juste' }, 'Réponse : ' + x.choix[x.bonne]),
+              x.explication ? el('p', {}, x.explication) : null);
+            suite.replaceChildren(el('button', {
+              class: 'bouton',
+              onclick: () => { i++; if (i < paquet.length) carte(); else accueil(); },
+            }, i + 1 < paquet.length ? 'Carte suivante' : 'Terminer'));
+          },
+        }, 'Retourner la carte');
+        racine.append(
+          el('p', { class: 'progression' }, 'Carte ' + (i + 1) + ' sur ' + paquet.length + ' · ' + matiere.nom),
+          el('section', { class: 'carte' },
+            el('h2', {}, x.q),
+            el('p', { class: 'aide' }, 'Dites la réponse dans votre tête, puis retournez la carte.'),
+            retourner,
+            reponse,
+            suite),
+          el('button', { class: 'lien', onclick: accueil }, 'Arrêter les cartes'));
+      }
+      carte();
+    }
+
+    // Ajoute les erreurs aux cartes de « Mes cours », sans doublon (ticket #26).
+    function ajouterCartes(matiere, paquet, bouton) {
+      const deja = O.cartes.liste(matiere.id).map((c) => c.q);
+      const nouvelles = paquet.filter((x) => !deja.includes(x.q));
+      nouvelles.forEach((x) => O.cartes.ajouter(matiere.id, x.q, x.choix[x.bonne] + (x.explication ? '. ' + x.explication : '')));
+      bouton.disabled = true;
+      O.notifier(nouvelles.length ? nouvelles.length + ' carte(s) ajoutée(s) dans Mes cours.' : 'Ces cartes sont déjà dans Mes cours.');
     }
 
     accueil();
