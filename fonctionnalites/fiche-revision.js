@@ -1,4 +1,6 @@
 // Fiche de révision : votre cours résumé sur une page par votre IA, après avoir noté de mémoire ce que vous retenez. Ticket #13.
+// Classe du 26 novembre : une partie du cours seulement (#25), chapitres remis dans l'ordre (#24), version express (#23),
+// schémas et calculs expliqués (#21), astuces pour retenir (#25), questions de vérification en fin de fiche (#26).
 Outil.enregistrer({
   id: 'fiche-revision',
   titre: 'Fiche de révision',
@@ -21,6 +23,10 @@ Outil.enregistrer({
         .f-fiche-revision .tableau th, .f-fiche-revision .tableau td { border: 1px solid var(--trait); padding: 6px 8px; text-align: left; vertical-align: top; }
         .f-fiche-revision .tableau th { background: var(--accent-pale); }
         .f-fiche-revision .souvenir { white-space: pre-wrap; color: var(--doux); }
+        .f-fiche-revision .options { border: 1px solid var(--trait); border-radius: 10px; padding: 6px 12px; margin: 12px 0; }
+        .f-fiche-revision .options legend { font-weight: 600; padding: 0 4px; }
+        .f-fiche-revision .option { display: flex; gap: 10px; align-items: center; min-height: 44px; }
+        .f-fiche-revision .option input { width: 22px; height: 22px; flex: none; margin: 0; }
       `));
     }
 
@@ -37,6 +43,20 @@ Outil.enregistrer({
       tableau: { nom: 'Un tableau', consigne: 'un tableau à deux colonnes, « Notion » et « Ce qu\'il faut retenir », au format Markdown' },
       bulles: { nom: 'Des bulles (carte mentale)', consigne: 'une carte mentale écrite en texte : le sujet au centre, puis chaque idée principale en titre, et ses détails en puces dessous' },
     };
+
+    // Options cochées avant d'ouvrir l'IA (classe du 26 novembre).
+    const OPTIONS = [
+      { id: 'ordre', nom: 'Remettre les chapitres dans l\'ordre', ticket: 24,
+        consigne: 'Commence par remettre mes notes dans l\'ordre des chapitres. Pour chaque chapitre, donne les notions théoriques importantes.' },
+      { id: 'essentiel', nom: 'Version express : l\'essentiel seulement', ticket: 23,
+        consigne: 'Garde seulement les informations clés. Écarte tout détail inutile pour réviser.' },
+      { id: 'schemas', nom: 'Des schémas et des calculs expliqués', ticket: 21,
+        consigne: 'Quand une notion s\'y prête, ajoute un petit schéma écrit sur une ligne avec des flèches (A → B → C). Pour chaque calcul de mes notes, donne la formule, puis un exemple résolu pas à pas avec des chiffres. Vérifie chaque calcul deux fois.' },
+      { id: 'astuces', nom: 'Des astuces pour retenir les définitions', ticket: 25,
+        consigne: 'Pour chaque définition difficile, ajoute une astuce courte pour la retenir : un moyen mnémotechnique, une image ou un exemple de la vie courante.' },
+      { id: 'questions', nom: 'Trois questions à la fin pour vérifier', ticket: 26,
+        consigne: 'Termine la fiche par un titre « # Pour vérifier », suivi de 3 questions sur la fiche, sans les réponses.' },
+    ];
 
     const nettoyer = (s) => s.replace(/\*\*|__|`/g, '').trim();
 
@@ -76,13 +96,16 @@ Outil.enregistrer({
       return el('div', { class: 'fiche' }, blocs);
     }
 
-    function prompt(matiere, format) {
+    function prompt(matiere, format, partie, choisies) {
+      const extras = OPTIONS.filter((o) => choisies.includes(o.id)).map((o) => '- ' + o.consigne).join('\n');
       return 'Voici mes notes de cours sur « ' + matiere.nom + ' ».\n'
         + 'Fais-en une fiche de révision qui tient sur une page, uniquement à partir de ces notes : '
         + 'n\'ajoute aucune information qui n\'y figure pas, et n\'oublie aucune notion importante.\n'
+        + (partie ? 'Ne traite que la partie « ' + partie + ' » de mes notes, et n\'utilise que les informations de cette partie.\n' : '')
         + 'Utilise des mots simples et des phrases courtes, sans blabla.\n'
-        + 'Présentation : ' + FORMATS[format].consigne + '.\n\n'
-        + 'Mes notes :\n' + matiere.notes;
+        + 'Présentation : ' + FORMATS[format].consigne + '.\n'
+        + (extras ? 'En plus :\n' + extras + '\n' : '')
+        + '\nMes notes :\n' + matiere.notes;
     }
 
     function dessiner() {
@@ -134,13 +157,21 @@ Outil.enregistrer({
         'aria-label': 'Présentation de la fiche',
         onchange: (e) => ecrireMatiere(matiere.id, Object.assign(lireMatiere(matiere.id), { format: e.target.value })),
       }, Object.keys(FORMATS).map((k) => el('option', { value: k, selected: k === d.format }, FORMATS[k].nom)));
+      const partie = el('input', { type: 'text', placeholder: 'Exemple : Chapitre 2, ou Les coûts' });
+      const cases = OPTIONS.map((o) => el('input', { type: 'checkbox', value: o.id }));
       const colle = el('textarea', { rows: 6, placeholder: 'Collez ici la fiche écrite par votre IA' });
       racine.append(el('section', { class: 'carte' },
         el('h2', {}, '2. Votre fiche'),
         el('label', { class: 'champ' }, el('span', {}, 'Présentation'), choix),
+        el('label', { class: 'champ' }, el('span', {}, 'Un chapitre ou un thème seulement (facultatif)'), partie),
+        el('fieldset', { class: 'options' },
+          el('legend', {}, 'Ajouter à la fiche'),
+          OPTIONS.map((o, k) => el('label', { class: 'option' }, cases[k], o.nom))),
         el('button', {
           class: 'bouton secondaire',
-          onclick: () => O.ouvrirIA(prompt(matiere, choix.value), 'Créer une fiche avec votre IA'),
+          onclick: () => O.ouvrirIA(
+            prompt(matiere, choix.value, partie.value.trim(), cases.filter((c) => c.checked).map((c) => c.value)),
+            'Créer une fiche avec votre IA'),
         }, 'Ouvrir mon IA'),
         el('p', { class: 'aide' }, 'Relisez la fiche avec votre cours, puis collez-la ici.'),
         colle,
