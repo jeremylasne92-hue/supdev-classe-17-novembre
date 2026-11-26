@@ -10,5 +10,6 @@ window.FONCTIONNALITES = [
   'minuteur',
   'question-reponse',
   'karaoke',
+  'hepahistos',
   'proposer',
 ];
