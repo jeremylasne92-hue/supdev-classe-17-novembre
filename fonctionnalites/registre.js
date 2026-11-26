@@ -8,5 +8,6 @@ window.FONCTIONNALITES = [
   'avec-mes-mots',
   'planning',
   'minuteur',
+  'question-reponse',
   'proposer',
 ];
